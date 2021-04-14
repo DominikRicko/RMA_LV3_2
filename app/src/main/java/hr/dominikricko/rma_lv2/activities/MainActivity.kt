@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerAdapter = PersonAdapter(ShowRandomQuoteOnClick)
 
-        ActivityMainBinding.inflate(layoutInflater)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
         mainBinding.rvPeople.adapter = recyclerAdapter
 
         setContentView(mainBinding.root)
