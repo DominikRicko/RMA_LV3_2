@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RMA_LV2</string>
     <string name="picture_of_the_person">Picture of the person</string>
+    <string name="title">Inspirational People</string>
 </resources>
