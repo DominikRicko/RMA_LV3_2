@@ -1,12 +1,17 @@
 package hr.dominikricko.rma_lv2.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
+import hr.dominikricko.rma_lv2.data.PeopleRepository
 import hr.dominikricko.rma_lv2.databinding.ActivityAddPersonBinding
+import hr.dominikricko.rma_lv2.model.InspiringPerson
+import java.util.*
 
 class AddPersonActivity : AppCompatActivity(){
 
@@ -15,7 +20,9 @@ class AddPersonActivity : AppCompatActivity(){
     private lateinit var etDateDeath: EditText
     private lateinit var etName: EditText
     private lateinit var etDescription: EditText
+    private lateinit var etQuote: EditText
     private lateinit var recyclerView: RecyclerView
+    private lateinit var bitmap: Bitmap
     private val quoteRecyclerViewAdapter : QuoteAdapter = QuoteAdapter()
 
     companion object{
@@ -30,20 +37,28 @@ class AddPersonActivity : AppCompatActivity(){
         etDescription = addPersonBinding.etDescription
         etDateBirth = addPersonBinding.etDateBirth
         etDateDeath = addPersonBinding.etDateDeath
+        etQuote = addPersonBinding.etQuote
         recyclerView = addPersonBinding.rvQuotes
 
         addPersonBinding.btnBrowseImage.setOnClickListener{ openGetImageDialog() }
         addPersonBinding.btnAdd.setOnClickListener{ addNewPerson()}
+        addPersonBinding.btnAddQuote.setOnClickListener { addQuote() }
         recyclerView.adapter = quoteRecyclerViewAdapter
 
         setContentView(addPersonBinding.root)
     }
 
+    private fun addQuote() {
+        if(etQuote.text.isNullOrBlank()) return
+        quoteRecyclerViewAdapter.quotes.add(etQuote.text.toString())
+        etQuote.text.clear()
+    }
+
     private fun openGetImageDialog(){
-        val getImageIntent = Intent()
-        getImageIntent.type = "image/*"
-        getImageIntent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE)
+
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, PICK_IMAGE)
+
     }
 
     private fun clearForm(){
@@ -52,19 +67,52 @@ class AddPersonActivity : AppCompatActivity(){
         etDateDeath.text.clear()
         etDateBirth.text.clear()
         quoteRecyclerViewAdapter.quotes.clear()
+        bitmap.recycle()
+    }
+
+    private fun isFormComplete(): Boolean{
+        return !(etName.text.isNullOrBlank()
+                || etDateBirth.text.isNullOrBlank()
+                || etDescription.text.isNullOrBlank()
+                || quoteRecyclerViewAdapter.quotes.size > 0
+                )
     }
 
     private fun addNewPerson(){
 
-        var error = false
-        if(etName.text.isNullOrBlank()) error = true
-        if(etDescription.text.isNullOrBlank()) error = true
-        if(etDateBirth.text.isNullOrBlank()) error = true
-        if(quoteRecyclerViewAdapter.quotes.size > 0) error = true
+        if(isFormComplete()){
 
-        if(error) return
+            val birthDate = Date(etDateBirth.text.toString())
+            val deathDate = if(!etDateDeath.text.isNullOrBlank())
+                Date(etDateDeath.text.toString())
+            else
+                null
 
-        clearForm()
+            PeopleRepository.addNewPerson(
+                    InspiringPerson(
+                            etName.text.toString(),
+                            bitmap,
+                            birthDate,
+                            deathDate,
+                            etDescription.text.toString()
+                    )
+            )
+            clearForm()
+        }
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+
+            val imageUri = data?.data
+            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+
+        }
+
     }
 
 }
