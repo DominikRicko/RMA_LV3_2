@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
-import hr.dominikricko.rma_lv2.data.InspiringPerson
-import hr.dominikricko.rma_lv2.data.PeopleRepository
 import hr.dominikricko.rma_lv2.databinding.ActivityAddPersonBinding
 
-class AddPersonActivity : AppCompatActivity() {
+class AddPersonActivity : AppCompatActivity(){
 
     private lateinit var addPersonBinding: ActivityAddPersonBinding
     private lateinit var etDateBirth: EditText
@@ -65,7 +63,8 @@ class AddPersonActivity : AppCompatActivity() {
         if(quoteRecyclerViewAdapter.quotes.size > 0) error = true
 
         if(error) return
-        
+
         clearForm()
     }
+
 }

@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import hr.dominikricko.rma_lv2.R
+import hr.dominikricko.rma_lv2.listeners.OnQuoteViewClickListener
 
-class QuoteAdapter : RecyclerView.Adapter<QuoteViewHolder>() {
+class QuoteAdapter : RecyclerView.Adapter<QuoteViewHolder>(), OnQuoteViewClickListener {
 
     val quotes : MutableList<String> = mutableListOf()
 
@@ -17,10 +18,14 @@ class QuoteAdapter : RecyclerView.Adapter<QuoteViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
-        holder.bind(quotes[position])
+        holder.bind(this,quotes[position])
     }
 
     override fun getItemCount(): Int {
         return quotes.size
+    }
+
+    override fun onQuoteClick(quote: String) {
+        quotes.remove(quote)
     }
 }

@@ -17,7 +17,7 @@ class PersonAdapter(private val clickListener: OnPersonViewClickListener) : Recy
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = PeopleRepository.getAt(position)
         holder.bind(person)
-        holder.itemView.setOnClickListener{clickListener.OnPersonClick(person)}
+        holder.itemView.setOnClickListener{clickListener.onPersonClick(person)}
     }
 
     override fun getItemCount(): Int {

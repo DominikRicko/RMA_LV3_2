@@ -1,5 +1,7 @@
 package hr.dominikricko.rma_lv2.data
 
+import hr.dominikricko.rma_lv2.model.InspiringPerson
+
 object PeopleRepository {
     var people : MutableList<InspiringPerson> = mutableListOf()
 
@@ -11,7 +13,7 @@ object PeopleRepository {
         people.remove(person)
     }
 
-    fun getAt(index : Int) : InspiringPerson{
+    fun getAt(index : Int) : InspiringPerson {
         return people[index]
     }
 }

@@ -1,4 +1,4 @@
-package hr.dominikricko.rma_lv2.data
+package hr.dominikricko.rma_lv2.model
 
 import android.graphics.Bitmap
 import java.util.*
