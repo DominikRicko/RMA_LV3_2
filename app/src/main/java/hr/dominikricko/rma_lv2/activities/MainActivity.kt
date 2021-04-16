@@ -1,5 +1,6 @@
 package hr.dominikricko.rma_lv2.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import hr.dominikricko.rma_lv2.adapters.PersonAdapter
@@ -19,6 +20,14 @@ class MainActivity : AppCompatActivity() {
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         mainBinding.rvPeople.adapter = recyclerAdapter
 
+        mainBinding.btnAddNewPerson.setOnClickListener { createNewPerson() }
+
         setContentView(mainBinding.root)
     }
+
+    private fun createNewPerson(){
+        val newPersonIntent = Intent(this, AddPersonActivity::class.java)
+        startActivity(newPersonIntent)
+    }
+
 }
