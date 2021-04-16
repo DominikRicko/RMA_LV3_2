@@ -1,5 +1,7 @@
 package hr.dominikricko.rma_lv2.adapters
 
+import android.net.Uri
+import android.os.Environment
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,7 +24,7 @@ class PersonViewHolder(private val personView: View) : RecyclerView.ViewHolder(p
             )
             .load(
                 if (person.imageUrl != null && person.imageUrl!!.startsWith('/'))
-                    File(person.imageUrl)
+                    Uri.parse(Environment.getExternalStorageDirectory().toString() + person.imageUrl)
                 else
                     person.imageUrl
             )
