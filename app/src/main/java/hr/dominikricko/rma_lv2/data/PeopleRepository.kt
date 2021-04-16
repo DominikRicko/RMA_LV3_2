@@ -3,17 +3,16 @@ package hr.dominikricko.rma_lv2.data
 import hr.dominikricko.rma_lv2.model.InspiringPerson
 
 object PeopleRepository {
-    var people: MutableList<InspiringPerson> = mutableListOf()
+    private val editablePeople: MutableList<InspiringPerson> = mutableListOf()
+
+    val people : List<InspiringPerson>
+    get() = editablePeople
 
     fun addNewPerson(person: InspiringPerson) {
-        people.add(person)
+        editablePeople.add(person)
     }
 
     fun removePerson(person: InspiringPerson) {
-        people.remove(person)
-    }
-
-    fun getAt(index: Int): InspiringPerson {
-        return people[index]
+        editablePeople.remove(person)
     }
 }

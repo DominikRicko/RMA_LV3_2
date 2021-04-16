@@ -12,6 +12,7 @@ import hr.dominikricko.rma_lv2.model.InspiringPerson
 import java.io.File
 
 class PersonViewHolder(private val personView: View) : RecyclerView.ViewHolder(personView) {
+
     fun bind(person: InspiringPerson) {
         val personBinding = ItemPersonBinding.bind(personView)
         personBinding.tvName.text = person.name
@@ -24,7 +25,8 @@ class PersonViewHolder(private val personView: View) : RecyclerView.ViewHolder(p
             )
             .load(
                 if (person.imageUrl != null && person.imageUrl!!.startsWith('/'))
-                    Uri.parse(Environment.getExternalStorageDirectory().toString() + person.imageUrl)
+                    Uri.parse(Environment.getExternalStorageDirectory().toString()
+                            + person.imageUrl)
                 else
                     person.imageUrl
             )

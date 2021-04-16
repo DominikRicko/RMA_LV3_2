@@ -3,11 +3,10 @@ package hr.dominikricko.rma_lv2.activities
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import hr.dominikricko.rma_lv2.R
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
 import hr.dominikricko.rma_lv2.context.ApplicationContext
 import hr.dominikricko.rma_lv2.data.PeopleRepository
@@ -17,14 +16,8 @@ import hr.dominikricko.rma_lv2.model.InspiringPerson
 class AddPersonActivity : AppCompatActivity() {
 
     private lateinit var addPersonBinding: ActivityAddPersonBinding
-    private lateinit var etDateBirth: EditText
-    private lateinit var etDateDeath: EditText
-    private lateinit var etName: EditText
-    private lateinit var etDescription: EditText
-    private lateinit var etQuote: EditText
-    private lateinit var recyclerView: RecyclerView
-    private var imageFile: String? = null
-    private val quoteRecyclerViewAdapter: QuoteAdapter = QuoteAdapter()
+    private lateinit var quoteRecyclerViewAdapter: QuoteAdapter
+    private var imageUri: String? = null
 
     companion object {
         const val PICK_IMAGE = 1
@@ -33,27 +26,23 @@ class AddPersonActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        addPersonBinding = ActivityAddPersonBinding.inflate(layoutInflater)
-        etName = addPersonBinding.etName
-        etDescription = addPersonBinding.etDescription
-        etDateBirth = addPersonBinding.etDateBirth
-        etDateDeath = addPersonBinding.etDateDeath
-        etQuote = addPersonBinding.etQuote
-        recyclerView = addPersonBinding.rvQuotes
+        quoteRecyclerViewAdapter = QuoteAdapter()
 
+        addPersonBinding = ActivityAddPersonBinding.inflate(layoutInflater)
         addPersonBinding.btnBrowseImage.setOnClickListener { openGetImageDialog() }
         addPersonBinding.btnAdd.setOnClickListener { addNewPerson() }
         addPersonBinding.btnAddQuote.setOnClickListener { addQuote() }
-        recyclerView.adapter = quoteRecyclerViewAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        addPersonBinding.rvQuotes.adapter = quoteRecyclerViewAdapter
+        addPersonBinding.rvQuotes.layoutManager = LinearLayoutManager(this)
 
         setContentView(addPersonBinding.root)
     }
 
     private fun addQuote() {
-        if (etQuote.text.isNullOrBlank()) return
-        quoteRecyclerViewAdapter.quotes.add(etQuote.text.toString())
-        etQuote.text.clear()
+        if (addPersonBinding.etQuote.text.isNullOrBlank()) return
+
+        quoteRecyclerViewAdapter.quotes.add(addPersonBinding.etQuote.text.toString())
+        addPersonBinding.etQuote.text.clear()
     }
 
     private fun openGetImageDialog() {
@@ -63,19 +52,11 @@ class AddPersonActivity : AppCompatActivity() {
 
     }
 
-    private fun clearForm() {
-        etName.text.clear()
-        etDescription.text.clear()
-        etDateDeath.text.clear()
-        etDateBirth.text.clear()
-        quoteRecyclerViewAdapter.quotes.clear()
-    }
-
     private fun isFormComplete(): Boolean {
-        return !(etName.text.isNullOrBlank()
-                || etDateBirth.text.isNullOrBlank()
-                || etDescription.text.isNullOrBlank()
-                || imageFile == null
+        return !(addPersonBinding.etName.text.isNullOrBlank()
+                || addPersonBinding.etDateBirth.text.isNullOrBlank()
+                || addPersonBinding.etDescription.text.isNullOrBlank()
+                || imageUri == null
                 || quoteRecyclerViewAdapter.quotes.size == 0
                 )
     }
@@ -84,29 +65,29 @@ class AddPersonActivity : AppCompatActivity() {
 
         if (isFormComplete()) {
 
-            val birthDate = etDateBirth.text.toString()
-            val deathDate = if (!etDateDeath.text.isNullOrBlank())
-                etDateDeath.text.toString()
+            val birthDate = addPersonBinding.etDateBirth.text.toString()
+            val deathDate = if (!addPersonBinding.etDateDeath.text.isNullOrBlank())
+                addPersonBinding.etDateDeath.text.toString()
             else
                 null
 
             val person = InspiringPerson(
-                etName.text.toString(),
-                imageFile,
+                addPersonBinding.etName.text.toString(),
+                imageUri,
                 birthDate,
                 deathDate,
-                etDescription.text.toString()
+                addPersonBinding.etDescription.text.toString()
             )
 
             quoteRecyclerViewAdapter.quotes.forEach { person.addQuote(it) }
 
             PeopleRepository.addNewPerson(person)
-            clearForm()
             finish()
+
         } else
             Toast.makeText(
                 ApplicationContext.context,
-                "Did you enter everything you had to?",
+                getString(R.string.add_person_error),
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -118,8 +99,8 @@ class AddPersonActivity : AppCompatActivity() {
 
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
 
-            imageFile = data?.data?.path
-            Toast.makeText(ApplicationContext.context, imageFile, Toast.LENGTH_SHORT).show()
+            imageUri = data?.data?.path
+            Toast.makeText(ApplicationContext.context, imageUri, Toast.LENGTH_SHORT).show()
 
         }
 

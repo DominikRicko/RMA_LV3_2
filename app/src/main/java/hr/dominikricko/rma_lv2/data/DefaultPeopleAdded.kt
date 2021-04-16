@@ -36,9 +36,9 @@ object DefaultPeopleAdded {
         pythagoras.addQuote("a^2 + b^2 = c^2")
         pythagoras.addQuote("There are only 2 \"types\" of triangles that have a 90° angle.")
 
-        PeopleRepository.addNewPerson(pythagoras)
         PeopleRepository.addNewPerson(grace)
         PeopleRepository.addNewPerson(ampere)
+        PeopleRepository.addNewPerson(pythagoras)
 
     }
 }
