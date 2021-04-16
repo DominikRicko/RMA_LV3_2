@@ -5,9 +5,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 data class InspiringPerson(var name : String,
-                           var image : Bitmap,
-                           var dateOfBirth : Date,
-                           var dateOfDeath : Date?,
+                           var imageUrl : String,
+                           var dateOfBirth : String,
+                           var dateOfDeath : String?,
                            var description : String){
 
     private val _quotes = ArrayList<String>()

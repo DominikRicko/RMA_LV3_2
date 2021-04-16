@@ -5,9 +5,11 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
+import hr.dominikricko.rma_lv2.context.ApplicationContext
 import hr.dominikricko.rma_lv2.data.PeopleRepository
 import hr.dominikricko.rma_lv2.databinding.ActivityAddPersonBinding
 import hr.dominikricko.rma_lv2.model.InspiringPerson
@@ -22,7 +24,7 @@ class AddPersonActivity : AppCompatActivity(){
     private lateinit var etDescription: EditText
     private lateinit var etQuote: EditText
     private lateinit var recyclerView: RecyclerView
-    private lateinit var bitmap: Bitmap
+    private lateinit var imageUrl: String
     private val quoteRecyclerViewAdapter : QuoteAdapter = QuoteAdapter()
 
     companion object{
@@ -67,7 +69,6 @@ class AddPersonActivity : AppCompatActivity(){
         etDateDeath.text.clear()
         etDateBirth.text.clear()
         quoteRecyclerViewAdapter.quotes.clear()
-        bitmap.recycle()
     }
 
     private fun isFormComplete(): Boolean{
@@ -82,16 +83,16 @@ class AddPersonActivity : AppCompatActivity(){
 
         if(isFormComplete()){
 
-            val birthDate = Date(etDateBirth.text.toString())
+            val birthDate = etDateBirth.text.toString()
             val deathDate = if(!etDateDeath.text.isNullOrBlank())
-                Date(etDateDeath.text.toString())
+                etDateDeath.text.toString()
             else
                 null
 
             PeopleRepository.addNewPerson(
                     InspiringPerson(
                             etName.text.toString(),
-                            bitmap,
+                            imageUrl,
                             birthDate,
                             deathDate,
                             etDescription.text.toString()
@@ -108,8 +109,8 @@ class AddPersonActivity : AppCompatActivity(){
 
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
 
-            val imageUri = data?.data
-            bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+            imageUrl = data?.data.toString()
+            Toast.makeText(ApplicationContext.context, imageUrl,Toast.LENGTH_SHORT).show()
 
         }
 
