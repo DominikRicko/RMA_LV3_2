@@ -13,7 +13,6 @@ import hr.dominikricko.rma_lv2.context.ApplicationContext
 import hr.dominikricko.rma_lv2.data.PeopleRepository
 import hr.dominikricko.rma_lv2.databinding.ActivityAddPersonBinding
 import hr.dominikricko.rma_lv2.model.InspiringPerson
-import java.io.File
 
 class AddPersonActivity : AppCompatActivity() {
 
@@ -24,7 +23,7 @@ class AddPersonActivity : AppCompatActivity() {
     private lateinit var etDescription: EditText
     private lateinit var etQuote: EditText
     private lateinit var recyclerView: RecyclerView
-    private var imageFile : String? = null
+    private var imageFile: String? = null
     private val quoteRecyclerViewAdapter: QuoteAdapter = QuoteAdapter()
 
     companion object {

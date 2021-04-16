@@ -8,7 +8,8 @@ object ShowRandomQuoteOnClick : OnPersonViewClickListener {
     override fun onPersonClick(person: InspiringPerson) {
         Toast.makeText(
             ApplicationContext.context,
-            person.quotes.elementAt((person.quotes.indices).random()), Toast.LENGTH_SHORT)
+            person.quotes.elementAt((person.quotes.indices).random()), Toast.LENGTH_SHORT
+        )
             .show()
     }
 }

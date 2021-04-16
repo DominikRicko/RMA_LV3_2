@@ -7,11 +7,11 @@ import hr.dominikricko.rma_lv2.model.InspiringPerson
 object DefaultPeopleAdded {
     fun init() {
         val grace = InspiringPerson(
-                "Grace Murray Hopper",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg/800px-Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
-                "1962/12/09",
-                "1992/01/01",
-                ApplicationContext.context.getString(R.string.grace_hopper_description)
+            "Grace Murray Hopper",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg/800px-Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg",
+            "1962/12/09",
+            "1992/01/01",
+            ApplicationContext.context.getString(R.string.grace_hopper_description)
         )
         grace.addQuote("She did something important.")
         grace.addQuote("Probably one of first compilers or something.")
