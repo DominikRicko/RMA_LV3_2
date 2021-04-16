@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 data class InspiringPerson(var name : String,
-                           var imageUrl : String,
+                           var imageUrl : String?,
                            var dateOfBirth : String,
                            var dateOfDeath : String?,
                            var description : String){
