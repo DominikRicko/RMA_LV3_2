@@ -29,4 +29,6 @@ class PersonAdapter(private val clickListener: OnPersonViewClickListener) :
     override fun getItemCount(): Int {
         return PeopleRepository.people.size
     }
+
+
 }

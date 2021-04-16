@@ -1,6 +1,8 @@
 package hr.dominikricko.rma_lv2.data
 
-object TemporaryQuoteRepository {
+import hr.dominikricko.rma_lv2.observable.Observable
+
+object TemporaryQuoteRepository : Observable<Int>() {
 
     private val editableQuotes : MutableList<String> = mutableListOf()
 
@@ -12,7 +14,10 @@ object TemporaryQuoteRepository {
     }
 
     fun removeQuote(quote: String){
+        val index = editableQuotes.indexOf(quote)
+        if(index == -1) return
         editableQuotes.remove(quote)
+        notifyObservers(index)
     }
 
     fun clear(){

@@ -10,10 +10,12 @@ import hr.dominikricko.rma_lv2.R
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
 import hr.dominikricko.rma_lv2.context.ApplicationContext
 import hr.dominikricko.rma_lv2.data.PeopleRepository
+import hr.dominikricko.rma_lv2.data.TemporaryQuoteRepository
 import hr.dominikricko.rma_lv2.databinding.ActivityAddPersonBinding
 import hr.dominikricko.rma_lv2.model.InspiringPerson
+import hr.dominikricko.rma_lv2.observable.Observable
 
-class AddPersonActivity : AppCompatActivity() {
+class AddPersonActivity : AppCompatActivity(){
 
     private lateinit var addPersonBinding: ActivityAddPersonBinding
     private lateinit var quoteRecyclerViewAdapter: QuoteAdapter
@@ -35,13 +37,20 @@ class AddPersonActivity : AppCompatActivity() {
         addPersonBinding.rvQuotes.adapter = quoteRecyclerViewAdapter
         addPersonBinding.rvQuotes.layoutManager = LinearLayoutManager(this)
 
+        TemporaryQuoteRepository.addObserver(quoteRecyclerViewAdapter)
+
         setContentView(addPersonBinding.root)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        TemporaryQuoteRepository.removeObserver(quoteRecyclerViewAdapter)
     }
 
     private fun addQuote() {
         if (addPersonBinding.etQuote.text.isNullOrBlank()) return
 
-        quoteRecyclerViewAdapter.quotes.add(addPersonBinding.etQuote.text.toString())
+        TemporaryQuoteRepository.addQuote(addPersonBinding.etQuote.text.toString())
         addPersonBinding.etQuote.text.clear()
     }
 
@@ -57,7 +66,7 @@ class AddPersonActivity : AppCompatActivity() {
                 || addPersonBinding.etDateBirth.text.isNullOrBlank()
                 || addPersonBinding.etDescription.text.isNullOrBlank()
                 || imageUri == null
-                || quoteRecyclerViewAdapter.quotes.size == 0
+                || TemporaryQuoteRepository.quotes.isEmpty()
                 )
     }
 
@@ -79,8 +88,8 @@ class AddPersonActivity : AppCompatActivity() {
                 addPersonBinding.etDescription.text.toString()
             )
 
-            quoteRecyclerViewAdapter.quotes.forEach { person.addQuote(it) }
-
+            TemporaryQuoteRepository.quotes.forEach { person.addQuote(it) }
+            TemporaryQuoteRepository.clear()
             PeopleRepository.addNewPerson(person)
             finish()
 
