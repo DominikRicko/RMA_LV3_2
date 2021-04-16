@@ -1,17 +1,20 @@
 package hr.dominikricko.rma_lv2.context
 
 import android.app.Application
+import android.content.Context
 
 class ApplicationContext: Application() {
 
     companion object{
-        private val instance = ApplicationContext()
+        lateinit var instance : ApplicationContext
 
-        fun invoke() : ApplicationContext{
-            return instance
-        }
+        val context : Context
+        get() = instance.applicationContext
+    }
 
-        fun getContext() = instance.applicationContext
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
     }
 
 }
