@@ -8,10 +8,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import hr.dominikricko.rma_lv2.R
 import hr.dominikricko.rma_lv2.databinding.ItemPersonBinding
+import hr.dominikricko.rma_lv2.listeners.OnPersonEditClickListener
+import hr.dominikricko.rma_lv2.listeners.OnPersonRemoveClickListener
 import hr.dominikricko.rma_lv2.model.InspiringPerson
 import java.io.File
 
-class PersonViewHolder(private val personView: View) : RecyclerView.ViewHolder(personView) {
+class PersonViewHolder(
+    private val personView: View,
+    private val onPersonEditClickListener: OnPersonEditClickListener,
+    private val onPersonRemoveClickListener: OnPersonRemoveClickListener
+    ) : RecyclerView.ViewHolder(personView) {
 
     fun bind(person: InspiringPerson) {
         val personBinding = ItemPersonBinding.bind(personView)
@@ -39,5 +45,8 @@ class PersonViewHolder(private val personView: View) : RecyclerView.ViewHolder(p
         }
 
         personBinding.tvDescription.text = person.description
+
+        personBinding.btnEdit.setOnClickListener { onPersonEditClickListener.onClickEditPerson(person) }
+        personBinding.btnRemove.setOnClickListener { onPersonRemoveClickListener.removePerson(person)}
     }
 }

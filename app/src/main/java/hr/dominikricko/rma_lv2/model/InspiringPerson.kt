@@ -1,12 +1,14 @@
 package hr.dominikricko.rma_lv2.model
 
+import java.io.Serializable
+
 data class InspiringPerson(
     var name: String,
     var imageUrl: String?,
     var dateOfBirth: String,
     var dateOfDeath: String?,
     var description: String
-) {
+) : Serializable {
 
     private val _quotes = ArrayList<String>()
 

@@ -1,5 +1,6 @@
 package hr.dominikricko.rma_lv2.fragments
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,21 +18,19 @@ import hr.dominikricko.rma_lv2.data.TemporaryQuoteRepository
 import hr.dominikricko.rma_lv2.databinding.FragmentEditPersonBinding
 import hr.dominikricko.rma_lv2.model.InspiringPerson
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditPersonFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditPersonFragment : Fragment() {
 
     companion object{
-        const val LOAD_PERSON = "LOAD"
+        const val LOAD_PERSON = "LOAD_PERSON"
         const val LOAD_IMAGE = 1
+
+        fun create(person: InspiringPerson): EditPersonFragment {
+            val args = Bundle()
+            args.putSerializable(LOAD_PERSON, person)
+            val fragment = EditPersonFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private lateinit var recyclerAdapter : QuoteAdapter
@@ -58,8 +57,8 @@ class EditPersonFragment : Fragment() {
         binding.btnBrowseImage.setOnClickListener { openGetImageDialog() }
 
         if(arguments != null){
-            arguments!!.let {
-                val person = it.getSerializable(LOAD_PERSON) as InspiringPerson
+            arguments!!.let { personData ->
+                val person = personData.getSerializable(LOAD_PERSON) as InspiringPerson
                 binding.etName.setText(person.name)
                 binding.etDescription.setText(person.description)
                 binding.etDateBirth.setText(person.dateOfBirth)
@@ -128,6 +127,18 @@ class EditPersonFragment : Fragment() {
 
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(gallery, LOAD_IMAGE)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK && requestCode == LOAD_IMAGE) {
+
+            imageUri = data?.data?.path
+            Toast.makeText(ApplicationContext.context, imageUri, Toast.LENGTH_SHORT).show()
+
+        }
 
     }
 

@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.dominikricko.rma_lv2.adapters.PersonAdapter
 import hr.dominikricko.rma_lv2.databinding.FragmentDisplayPeopleBinding
+import hr.dominikricko.rma_lv2.listeners.OnAddPersonClickListener
+import hr.dominikricko.rma_lv2.listeners.OnPersonEditClickListener
 import hr.dominikricko.rma_lv2.listeners.ShowRandomQuoteOnClick
 
-class DisplayPeopleFragment : Fragment() {
+class DisplayPeopleFragment(
+    private val addClickListener: OnAddPersonClickListener,
+    private val editClickListener: OnPersonEditClickListener) : Fragment() {
 
     private lateinit var binding: FragmentDisplayPeopleBinding
     private lateinit var recyclerAdapter: PersonAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recyclerAdapter = PersonAdapter(ShowRandomQuoteOnClick)
+        recyclerAdapter = PersonAdapter(ShowRandomQuoteOnClick, editClickListener)
 
     }
 
@@ -29,13 +33,12 @@ class DisplayPeopleFragment : Fragment() {
         binding = FragmentDisplayPeopleBinding.inflate(layoutInflater)
         binding.rvPeople.adapter = recyclerAdapter
         binding.rvPeople.layoutManager = LinearLayoutManager(context)
-        binding.btnAddNewPerson.setOnClickListener { createNewPerson() }
+        binding.btnAddNewPerson.setOnClickListener { addClickListener.onClickAddPerson() }
 
         return binding.root;
     }
 
-    private fun createNewPerson() {
 
-    }
+
 
 }
