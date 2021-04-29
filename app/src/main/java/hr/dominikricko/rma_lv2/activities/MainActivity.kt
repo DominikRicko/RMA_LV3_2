@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNewPerson() {
-        val newPersonIntent = Intent(this, AddPersonActivity::class.java)
+        val newPersonIntent = Intent(this, AddPersonFragment::class.java)
         startActivity(newPersonIntent)
     }
 

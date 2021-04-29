@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.dominikricko.rma_lv2.R
-import hr.dominikricko.rma_lv2.activities.AddPersonActivity
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
 import hr.dominikricko.rma_lv2.context.ApplicationContext
 import hr.dominikricko.rma_lv2.data.PeopleRepository
