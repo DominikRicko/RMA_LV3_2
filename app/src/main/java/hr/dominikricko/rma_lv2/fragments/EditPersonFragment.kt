@@ -4,11 +4,11 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.dominikricko.rma_lv2.R
 import hr.dominikricko.rma_lv2.adapters.QuoteAdapter
@@ -20,7 +20,7 @@ import hr.dominikricko.rma_lv2.model.InspiringPerson
 
 class EditPersonFragment : Fragment() {
 
-    companion object{
+    companion object {
         const val LOAD_PERSON = "LOAD_PERSON"
         const val LOAD_IMAGE = 1
 
@@ -33,9 +33,10 @@ class EditPersonFragment : Fragment() {
         }
     }
 
-    private lateinit var recyclerAdapter : QuoteAdapter
-    private lateinit var binding : FragmentEditPersonBinding
+    private lateinit var recyclerAdapter: QuoteAdapter
+    private lateinit var binding: FragmentEditPersonBinding
     private var imageUri: String? = null
+    private lateinit var person : InspiringPerson
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,13 +57,15 @@ class EditPersonFragment : Fragment() {
         binding.btnAddQuote.setOnClickListener { addNewQuote() }
         binding.btnBrowseImage.setOnClickListener { openGetImageDialog() }
 
-        if(arguments != null){
+        if (arguments != null) {
             arguments!!.let { personData ->
-                val person = personData.getSerializable(LOAD_PERSON) as InspiringPerson
+                person = personData.getSerializable(LOAD_PERSON) as InspiringPerson
                 binding.etName.setText(person.name)
                 binding.etDescription.setText(person.description)
                 binding.etDateBirth.setText(person.dateOfBirth)
                 binding.etDateDeath.setText(person.dateOfDeath)
+                
+                imageUri = person.imageUrl
                 person.quotes.forEach { TemporaryQuoteRepository.addQuote(it) }
 
             }
@@ -78,23 +81,28 @@ class EditPersonFragment : Fragment() {
 
         if (isFormComplete()) {
 
+
             val birthDate = binding.etDateBirth.text.toString()
             val deathDate = if (!binding.etDateDeath.text.isNullOrBlank())
                 binding.etDateDeath.text.toString()
             else
                 null
 
-            val person = InspiringPerson(
-                binding.etName.text.toString(),
-                imageUri,
-                birthDate,
-                deathDate,
-                binding.etDescription.text.toString()
-            )
+                val newPerson = InspiringPerson(
+                    binding.etName.text.toString(),
+                    imageUri,
+                    birthDate,
+                    deathDate,
+                    binding.etDescription.text.toString()
+                )
 
-            TemporaryQuoteRepository.quotes.forEach { person.addQuote(it) }
-            TemporaryQuoteRepository.clear()
-            PeopleRepository.addNewPerson(person)
+                TemporaryQuoteRepository.quotes.forEach { newPerson.addQuote(it) }
+                TemporaryQuoteRepository.clear()
+
+            if (this::person.isInitialized)
+                PeopleRepository.editPerson(newPerson, person)
+            else
+                PeopleRepository.addNewPerson(person)
 
             activity?.supportFragmentManager?.popBackStack()
 

@@ -11,7 +11,11 @@ object PeopleRepository : Observable<Int>() {
 
     fun addNewPerson(person: InspiringPerson) {
         editablePeople.add(person)
-        notifyObservers(editablePeople.size - 1);
+    }
+
+    fun editPerson(newPerson: InspiringPerson, oldPerson: InspiringPerson){
+        removePerson(oldPerson)
+        addNewPerson(newPerson)
     }
 
     fun removePerson(person: InspiringPerson) {
