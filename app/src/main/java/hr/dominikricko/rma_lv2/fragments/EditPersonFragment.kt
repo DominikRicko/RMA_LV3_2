@@ -102,7 +102,7 @@ class EditPersonFragment : Fragment() {
             if (this::person.isInitialized)
                 PeopleRepository.editPerson(newPerson, person)
             else
-                PeopleRepository.addNewPerson(person)
+                PeopleRepository.addNewPerson(newPerson)
 
             activity?.supportFragmentManager?.popBackStack()
 
