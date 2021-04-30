@@ -30,14 +30,14 @@ class PersonAdapter(
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
 
-        val person = PeopleRepository.people[position]
+        val person = PeopleRepository.getPeople()[position]
         holder.bind(person)
         holder.itemView.setOnClickListener { clickListener.onPersonClick(person) }
 
     }
 
     override fun getItemCount(): Int {
-        return PeopleRepository.people.size
+        return PeopleRepository.getPeople().size
     }
 
     override fun notify(data: Int) {

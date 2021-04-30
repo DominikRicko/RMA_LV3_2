@@ -4,24 +4,28 @@ import hr.dominikricko.rma_lv2.model.InspiringPerson
 import hr.dominikricko.rma_lv2.observable.Observable
 
 object PeopleRepository : Observable<Int>() {
-    private val editablePeople: MutableList<InspiringPerson> = mutableListOf()
 
-    val people : List<InspiringPerson>
-    get() = editablePeople
+    private val peopleDao = PeopleDatabaseBuilder.getInstance().peopleDao()
 
     fun addNewPerson(person: InspiringPerson) {
-        editablePeople.add(person)
+        peopleDao.insert(person)
     }
 
     fun editPerson(newPerson: InspiringPerson, oldPerson: InspiringPerson){
+
         removePerson(oldPerson)
         addNewPerson(newPerson)
     }
 
     fun removePerson(person: InspiringPerson) {
-        val index = editablePeople.indexOf(person)
+        val index = peopleDao.getPeople().indexOf(person)
 
-        editablePeople.removeAt(index)
+        peopleDao.delete(person)
+
         notifyObservers(index);
+    }
+
+    fun getPeople() : List<InspiringPerson>{
+        return peopleDao.getPeople()
     }
 }

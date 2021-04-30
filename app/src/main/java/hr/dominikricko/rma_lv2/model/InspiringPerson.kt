@@ -28,7 +28,11 @@ data class InspiringPerson(
 
 
     fun addQuote(quote: String) {
-        PeopleDatabaseBuilder.getInstance().quoteDao().insert(Quote(this, quote))
+
+        val newQuote = Quote(this, quote)
+        val quoteDao = PeopleDatabaseBuilder.getInstance().quoteDao()
+
+        quoteDao.insert(newQuote)
     }
 
     fun getQuotes() : List<String>{
