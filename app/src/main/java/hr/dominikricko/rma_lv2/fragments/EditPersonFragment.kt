@@ -66,7 +66,7 @@ class EditPersonFragment : Fragment() {
                 binding.etDateDeath.setText(person.dateOfDeath)
                 
                 imageUri = person.imageUrl
-                person.quotes.forEach { TemporaryQuoteRepository.addQuote(it) }
+                person.getQuotes().forEach { TemporaryQuoteRepository.addQuote(it) }
 
             }
 

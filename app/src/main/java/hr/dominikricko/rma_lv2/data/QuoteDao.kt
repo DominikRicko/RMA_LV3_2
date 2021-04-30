@@ -7,10 +7,10 @@ import hr.dominikricko.rma_lv2.model.Quote
 @Dao
 interface QuoteDao {
     @Query("SELECT * FROM quotes where referenceId = :personId")
-    fun getQuotes(personId : Long) : List<InspiringPerson>
+    fun getQuotes(personId : Long) : List<Quote>
 
     @Delete
-    fun delete()
+    fun delete(quote: Quote)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(quote: Quote)

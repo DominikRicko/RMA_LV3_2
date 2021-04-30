@@ -6,9 +6,13 @@ import hr.dominikricko.rma_lv2.model.InspiringPerson
 
 object ShowRandomQuoteOnClick : OnPersonViewClickListener {
     override fun onPersonClick(person: InspiringPerson) {
+
+        val quotes = person.getQuotes()
+
+
         Toast.makeText(
             ApplicationContext.context,
-            person.quotes.elementAt((person.quotes.indices).random()), Toast.LENGTH_SHORT
+            quotes.elementAt((quotes.indices).random()), Toast.LENGTH_SHORT
         )
             .show()
     }

@@ -14,7 +14,13 @@ import androidx.room.PrimaryKey
     )]
 )
 class Quote(
-    @PrimaryKey(autoGenerate = true) private val id: Long,
-    @ColumnInfo private val referenceId: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    @ColumnInfo val referenceId: Long,
     @ColumnInfo var quote: String
-)
+){
+    companion object{
+        operator fun invoke(person: InspiringPerson, quote: String) : Quote{
+            return Quote(0, person.id, quote)
+        }
+    }
+}

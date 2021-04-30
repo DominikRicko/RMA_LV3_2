@@ -9,6 +9,7 @@ import hr.dominikricko.rma_lv2.model.Quote
 abstract class PeopleDatabase : RoomDatabase(){
 
     abstract fun peopleDao() : PeopleDao
+    abstract fun quoteDao() : QuoteDao
 
     companion object{
         const val NAME = "peopleDb"
