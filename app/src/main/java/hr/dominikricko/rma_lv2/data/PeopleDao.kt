@@ -16,5 +16,5 @@ interface PeopleDao {
     fun delete(person: InspiringPerson)
 
     @Query("SELECT * FROM people WHERE id=:id")
-    fun getNote(id: Long): InspiringPerson
+    fun getPerson(id: Long): InspiringPerson
 }
