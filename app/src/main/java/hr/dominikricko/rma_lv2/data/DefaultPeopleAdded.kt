@@ -13,8 +13,6 @@ object DefaultPeopleAdded {
             "1992/01/01",
             ApplicationContext.context.getString(R.string.grace_hopper_description)
         )
-        grace.addQuote("She did something important.")
-        grace.addQuote("Probably one of first compilers or something.")
 
         val ampere = InspiringPerson(
             "André-Marie Ampère",
@@ -23,8 +21,6 @@ object DefaultPeopleAdded {
             "1836/06/10",
             ApplicationContext.context.getString(R.string.andre_ampere_description)
         )
-        ampere.addQuote("Bzzzzz")
-        ampere.addQuote("It's not the volts that kill you...")
 
         val pythagoras = InspiringPerson(
             "Pythagoras of Samos",
@@ -33,12 +29,20 @@ object DefaultPeopleAdded {
             "495 BC",
             ApplicationContext.context.getString(R.string.pythagoras_description)
         )
-        pythagoras.addQuote("a^2 + b^2 = c^2")
-        pythagoras.addQuote("There are only 2 \"types\" of triangles that have a 90° angle.")
 
         PeopleRepository.addNewPerson(grace)
         PeopleRepository.addNewPerson(ampere)
         PeopleRepository.addNewPerson(pythagoras)
+        /*
+        grace.addQuote("She did something important.")
+        grace.addQuote("Probably one of first compilers or something.")
+
+        ampere.addQuote("Bzzzzz")
+        ampere.addQuote("It's not the volts that kill you...")
+
+        pythagoras.addQuote("a^2 + b^2 = c^2")
+        pythagoras.addQuote("There are only 2 \"types\" of triangles that have a 90° angle.")
+        */
 
     }
 }

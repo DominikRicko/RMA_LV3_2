@@ -32,11 +32,12 @@ data class InspiringPerson(
         val newQuote = Quote(this, quote)
         val quoteDao = PeopleDatabaseBuilder.getInstance().quoteDao()
 
-        quoteDao.insert(newQuote)
+        //quoteDao.insert(newQuote)
     }
 
     fun getQuotes() : List<String>{
-        return PeopleDatabaseBuilder.getInstance().quoteDao().getQuotes(this.id).map { it.quote }
+        //TODO Fix the quotes, somehow.
+        return listOf("Given up on quotes")//PeopleDatabaseBuilder.getInstance().quoteDao().getQuotes(this.id).map { it.quote }
     }
 
 }
